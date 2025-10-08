@@ -13,6 +13,9 @@ type Application struct {
 	buffer           [][]rune
 	screen           tcell.Screen
 	defStyle         tcell.Style
+	statusBarStyle   tcell.Style
+	helpMenuStyle    tcell.Style
+	statusMsg        string
 	filename         string
 	isModified       bool
 }
@@ -56,7 +59,7 @@ func main() {
 	}
 
 	message := "Nano-like Editor | Type to begin | ESC or Ctrl+C to quit"
-	app.drawText(0, 0, message)
+	app.drawText(0, 0, message, app.defStyle)
 	app.screen.Show()
 
 	for {

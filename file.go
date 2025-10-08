@@ -16,7 +16,6 @@ func (app *Application) save() error {
 		writer.WriteString("\n")
 	}
 	writer.Flush()
-	app.isModified = false
 	return nil
 }
 

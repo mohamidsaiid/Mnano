@@ -1,9 +1,6 @@
 package main
 
 import (
-	"log"
-	"os"
-
 	"github.com/gdamore/tcell/v2"
 )
 
@@ -142,17 +139,10 @@ func (app *Application) handleDelete() {
 }
 
 func (app *Application) updateCursor() {
-	app.screen.ShowCursor(app.cursorX, app.cursorY)
+	// Cursor is at row 1 (not 0) because status bar is at top
+	screenY := app.cursorY + 1
+	app.screen.ShowCursor(app.cursorX, screenY)
 	app.screen.Show()
-}
-
-func (app *Application) handleQuit() {
-	if app.isModified {
-		app.drawText(0, 100, "if you need to save the file press CTRL+s")
-		return
-	}
-	app.screen.Fini()
-	os.Exit(0)
 }
 
 func (app *Application) handleKeyEvents(ev *tcell.EventKey) {
@@ -174,6 +164,7 @@ func (app *Application) handleKeyEvents(ev *tcell.EventKey) {
 		// Filter out control characters (optional)
 		if char >= 32 || char == '\t' {
 			app.handleInsert(char)
+			app.render()
 		}
 	case tcell.KeyBackspace, tcell.KeyBackspace2:
 		app.handleBackspace()
@@ -192,14 +183,16 @@ func (app *Application) handleKeyEvents(ev *tcell.EventKey) {
 		app.updateCursor()
 
 	case tcell.KeyCtrlS:
-		err := app.save()
-		if err != nil {
-			log.Fatalf("error while saving file: %v", err)
-		}
+		app.handleSave()
+		app.render()
 
-	case tcell.KeyEscape, tcell.KeyCtrlC, tcell.KeyCtrlQ:
+	case tcell.KeyEscape, tcell.KeyCtrlC:
 		// Multiple ways to quit
-		app.handleQuit()
-
+		if app.isModified {
+			app.statusMsg = "File modified! Use Ctrl+Q to quit"
+			app.render()
+		} else {
+			app.handleQuit()
+		}
 	}
 }
