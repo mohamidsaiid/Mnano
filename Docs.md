@@ -1,38 +1,50 @@
-# Documentation 
+# Documentation
 
----
+## Table of Contents
 
-## ⌨️ Keyboard Shortcuts
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Architecture](#architecture)
+- [How It Works](#how-it-works)
+- [Development](#development)
+- [Roadmap](#roadmap)
+
+- ***
+
+## Keyboard Shortcuts
 
 ### Navigation
-| Key | Action |
-|-----|--------|
-| `↑` `↓` `←` `→` | Move cursor |
-| `Home` | Jump to start of line |
-| `End` | Jump to end of line |
+
+| Key             | Action                |
+| --------------- | --------------------- |
+| `↑` `↓` `←` `→` | Move cursor           |
+| `Home`          | Jump to start of line |
+| `End`           | Jump to end of line   |
 
 ### Editing
-| Key | Action |
-|-----|--------|
+
+| Key         | Action                         |
+| ----------- | ------------------------------ |
 | `Backspace` | Delete character before cursor |
-| `Delete` | Delete character at cursor |
-| `Enter` | Create new line |
-| `Tab` | Insert tab character |
+| `Delete`    | Delete character at cursor     |
+| `Enter`     | Create new line                |
+| `Tab`       | Insert tab character           |
 
 ### File Operations
-| Key | Action |
-|-----|--------|
+
+| Key      | Action    |
+| -------- | --------- |
 | `Ctrl+S` | Save file |
 
 ### Other
-| Key | Action |
-|-----|--------|
+
+| Key      | Action                     |
+| -------- | -------------------------- |
 | `Ctrl+C` | Cancel/Quit (with warning) |
-| `Esc` | Cancel current operation |
+| `Esc`    | Cancel current operation   |
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Project Structure
 
@@ -48,6 +60,7 @@ nano-editor/
 ### Key Components
 
 #### **Application Struct**
+
 ```go
 type Application struct {
     cursorX, cursorY int        // Cursor position
@@ -61,11 +74,13 @@ type Application struct {
 ```
 
 #### **Text Buffer**
+
 - Stored as `[][]rune` - array of lines, each line is array of runes
 - Uses `rune` type for proper Unicode support (handles emoji, Arabic, Chinese, etc.)
 - Dynamic resizing as lines are added/removed
 
 #### **Event Loop**
+
 ```go
 for {
     ev := screen.PollEvent()  // Wait for keyboard/resize events
@@ -80,7 +95,7 @@ for {
 
 ---
 
-## 🔧 How It Works
+## How It Works
 
 ### Text Buffer Management
 
@@ -96,12 +111,14 @@ buffer = [][]rune{
 **Key Operations:**
 
 1. **Insert Character**
+
    ```go
    // Split line at cursor, insert char, join back
    line = line[:cursorX] + char + line[cursorX:]
    ```
 
 2. **New Line (Enter)**
+
    ```go
    // Split current line at cursor
    line1 = line[:cursorX]
@@ -118,6 +135,7 @@ buffer = [][]rune{
 ### File Operations
 
 **Loading:**
+
 ```go
 file, _ := os.Open(filename)
 scanner := bufio.NewScanner(file)
@@ -128,6 +146,7 @@ for scanner.Scan() {
 ```
 
 **Saving:**
+
 ```go
 file, _ := os.Create(filename)
 writer := bufio.NewWriter(file)
@@ -140,6 +159,7 @@ writer.Flush()
 ### Screen Rendering
 
 **Layout:**
+
 ```
 Row 0:     Status bar (reversed colors)
 Row 1-N:   Text buffer
@@ -148,6 +168,7 @@ Row N+2:   Help bar (reversed colors)
 ```
 
 **Rendering Pipeline:**
+
 ```go
 1. Clear screen
 2. Draw status bar
@@ -159,7 +180,7 @@ Row N+2:   Help bar (reversed colors)
 
 ---
 
-## 🛠️ Development
+## Development
 
 ### Running Tests
 
@@ -199,9 +220,10 @@ GOOS=windows GOARCH=amd64 go build -o nano-editor.exe
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 ### Completed ✅
+
 - [x] Basic text editing (insert, delete, cursor movement)
 - [x] File loading from command line
 - [x] File saving with Ctrl+S
@@ -210,21 +232,24 @@ GOOS=windows GOARCH=amd64 go build -o nano-editor.exe
 - [x] Status bar with position
 - [x] Help bar with shortcuts
 
-### Planned Features 🎯
+### Planned Features
 
 #### **Phase 1: Essential Features**
+
 - [ ] **Search** (Ctrl+W) - Find text in buffer
 - [ ] **Cut/Paste** (Ctrl+K, Ctrl+U) - Cut and paste lines
 - [ ] **Line numbers** - Display line numbers on the left
 - [ ] **Undo/Redo** (Ctrl+Z, Ctrl+Y) - Undo/redo changes
 
 #### **Phase 2: Enhanced Editing**
+
 - [ ] **Find and Replace** - Search and replace text
 - [ ] **Go to line** (Ctrl+G) - Jump to specific line number
 - [ ] **Select text** - Visual selection with Shift+Arrows
 - [ ] **Copy** (Ctrl+C) - Copy without cutting
 
 #### **Phase 3: Advanced Features**
+
 - [ ] **Syntax highlighting** - Color coding for Go, Python, etc.
 - [ ] **Multiple buffers** - Edit multiple files at once
 - [ ] **Split view** - View two files side by side
@@ -232,6 +257,7 @@ GOOS=windows GOARCH=amd64 go build -o nano-editor.exe
 - [ ] **Tab completion** - Autocomplete file paths
 
 #### **Phase 4: Polish**
+
 - [ ] **Configuration file** - ~/.nanorc support
 - [ ] **Themes** - Customizable color schemes
 - [ ] **Mouse support** - Click to position cursor
@@ -239,7 +265,7 @@ GOOS=windows GOARCH=amd64 go build -o nano-editor.exe
 
 ---
 
-## 🧪 Testing Checklist
+## Testing Checklist
 
 Before releasing, test these scenarios:
 
