@@ -53,6 +53,14 @@ A minimal, terminal-based text editor written in Go, inspired by GNU nano. Built
 - **Go 1.19 or higher** - [Download Go](https://go.dev/dl/)
 - A terminal emulator (works best with modern terminals)
 
+### Install using script
+
+```bash
+curl -fsS https://raw.githubusercontent.com/mohamidsaiid/Mnano/refs/heads/main/install.sh | sh
+```
+
+or
+
 ### Install from Source
 
 ```bash
