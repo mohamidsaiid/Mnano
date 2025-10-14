@@ -56,7 +56,7 @@ A minimal, terminal-based text editor written in Go, inspired by GNU nano. Built
 ### Install using script
 
 ```bash
-curl -fsS https://raw.githubusercontent.com/mohamidsaiid/Mnano/refs/heads/main/install.sh | sh
+sudo sh -c "$(curl -sSL https://raw.githubusercontent.com/mohamidsaiid/Mnano/refs/heads/main/install.sh)"
 ```
 
 or
