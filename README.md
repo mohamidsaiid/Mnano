@@ -96,13 +96,13 @@ go run main.go file.go myfile.txt
 
 ```bash
 # Open an existing file
-./nano-editor myfile.txt
+mnano myfile.txt
 
 # Open multiple files (opens first file)
-./nano-editor file1.txt
+mnano file1.txt
 
 # Create a new file
-./nano-editor newfile.txt
+mnano newfile.txt
 ```
 
 ### Basic Editing
@@ -129,7 +129,7 @@ Ctrl+S  # Prompts: "Save as: "
 
 ```bash
 # Open file
-./nano-editor hello.go
+mnano hello.go
 
 # Edit content
 # ... type your code ...
